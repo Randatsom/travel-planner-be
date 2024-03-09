@@ -19,12 +19,8 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/auth', authRoutes)
 
-// Serve static files from the build folder
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-// Handle all other routes and serve the index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../frontend/index.html'));
 });
 
 // connect to db
