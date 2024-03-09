@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes)
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/index.html'));
+    res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'));
 });
 
 // connect to db
