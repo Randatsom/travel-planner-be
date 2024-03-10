@@ -3,13 +3,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const authRoutes = require('./routes/auth')
-const serveStatic = require('./serve-static');
 
 // express app
 const app = express()
-
-// static routes
-serveStatic(app);
 
 // middleware
 app.use(express.json())
