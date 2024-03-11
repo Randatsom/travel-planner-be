@@ -1,6 +1,6 @@
-const { body } = require("express-validator");
+import { body } from "express-validator";
 
-const registerValidation = [
+export const registerValidation = [
   body("email", "Неверный формат почты").isEmail(),
   body("password", "Пароль должен содержать не менее 5 символов").isLength({
     min: 5,
@@ -10,5 +10,3 @@ const registerValidation = [
   }),
   body("avatarUrl").optional().isURL(),
 ];
-
-module.exports = registerValidation
