@@ -20,6 +20,10 @@ const EventSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

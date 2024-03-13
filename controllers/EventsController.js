@@ -22,9 +22,9 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const events = await EventSchema.find({ user: req.userId }).select(
-      "_id title description",
-    );
+    const events = await EventSchema.find({ user: req.userId })
+      .select("_id title description completed")
+      .sort({ createdAt: -1 });
 
     res.json(events);
   } catch (e) {
@@ -59,6 +59,7 @@ export const update = async (req, res) => {
         description: req.body.description,
         attendees: req.body.attendees,
         user: req.userId,
+        completed: req.body.completed,
       },
     );
 
