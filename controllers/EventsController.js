@@ -1,11 +1,16 @@
 import EventSchema from "../models/Event.js";
+import User from "../models/User.js";
 
 export const create = async (req, res) => {
   try {
+    const attendeesModels = await Promise.all(
+      req.body.attendees.map((userId) => User.findById(userId)),
+    );
+
     const doc = new EventSchema({
       title: req.body.title,
       description: req.body.description,
-      attendees: req.body.attendees,
+      attendees: attendeesModels,
       user: req.userId,
     });
 
@@ -23,7 +28,26 @@ export const create = async (req, res) => {
 export const getAll = async (req, res) => {
   try {
     const events = await EventSchema.find({ user: req.userId })
-      .select("_id title description completed")
+      .populate("attendees", "-passwordHash")
+      .select("_id title description completed attendees")
+      .sort({ createdAt: -1 });
+
+    res.json(events);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Не удалось получить события",
+    });
+  }
+};
+
+export const getParticipationEvents = async (req, res) => {
+  try {
+    const events = await EventSchema.find({
+      attendees: req.userId,
+    })
+      .populate("attendees", "-passwordHash")
+      .select("_id title description completed attendees")
       .sort({ createdAt: -1 });
 
     res.json(events);

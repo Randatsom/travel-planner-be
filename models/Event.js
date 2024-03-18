@@ -11,10 +11,12 @@ const EventSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    attendees: {
-      type: Array,
-      default: [],
-    },
+    attendees: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
