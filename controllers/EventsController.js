@@ -84,6 +84,7 @@ export const update = async (req, res) => {
         attendees: req.body.attendees,
         user: req.userId,
         completed: req.body.completed,
+        lists: req.body.lists,
       },
     );
 

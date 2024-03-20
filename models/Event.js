@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+const ListItemSchema = new mongoose.Schema({
+  id: String,
+  title: String,
+  iconName: String,
+  items: Array,
+  completed: Number,
+});
+
 const EventSchema = new mongoose.Schema(
   {
     title: {
@@ -25,6 +33,9 @@ const EventSchema = new mongoose.Schema(
     completed: {
       type: Boolean,
       default: false,
+    },
+    lists: {
+      type: [ListItemSchema],
     },
   },
   { timestamps: true },
