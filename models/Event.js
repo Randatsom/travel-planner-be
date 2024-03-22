@@ -1,10 +1,14 @@
 import mongoose from "mongoose";
 
+const ListItemItemsSchema = new mongoose.Schema({
+  title: String,
+  checked: Boolean,
+});
+
 const ListItemSchema = new mongoose.Schema({
-  id: String,
   title: String,
   iconName: String,
-  items: Array,
+  items: [ListItemItemsSchema],
   completed: Number,
 });
 
