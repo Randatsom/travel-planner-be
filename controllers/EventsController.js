@@ -29,6 +29,7 @@ export const getAll = async (req, res) => {
   try {
     const events = await EventSchema.find({ user: req.userId })
       .populate("attendees", "-passwordHash")
+      .populate({ path: "user", select: "-passwordHash" })
       .select("_id title description completed attendees")
       .sort({ createdAt: -1 });
 
@@ -47,7 +48,8 @@ export const getParticipationEvents = async (req, res) => {
       attendees: req.userId,
     })
       .populate("attendees", "-passwordHash")
-      .select("_id title description completed attendees")
+      .populate({ path: "user", select: "-passwordHash" })
+      .select("_id title description completed attendees user")
       .sort({ createdAt: -1 });
 
     res.json(events);
