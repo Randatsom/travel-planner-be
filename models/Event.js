@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const ListItemItemsSchema = new mongoose.Schema({
   title: String,
   checked: Boolean,
+  assignees: Array,
 });
 
 const ListItemSchema = new mongoose.Schema({
