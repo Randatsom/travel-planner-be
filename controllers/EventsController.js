@@ -121,3 +121,96 @@ export const remove = async (req, res) => {
     });
   }
 };
+
+export const getListById = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const listId = req.params.listId;
+
+    const event = await EventSchema.findOne({ _id: eventId });
+
+    if (!event) {
+      return res.status(404).json({
+        message: "Событие не найдено",
+      });
+    }
+
+    const list = event.lists.find((list) => list._id.toString() === listId);
+
+    if (!list) {
+      return res.status(404).json({
+        message: "Список не найден",
+      });
+    }
+
+    res.json(list);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Не удалось получить список",
+    });
+  }
+};
+
+export const updateList = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const listId = req.params.listId;
+    const listData = req.body;
+
+    const event = await EventSchema.findOne({ _id: eventId });
+
+    if (!event) {
+      return res.status(404).json({
+        message: "Событие не найдено",
+      });
+    }
+
+    const listIndex = event.lists.findIndex(
+      (list) => list._id.toString() === listId,
+    );
+
+    if (listIndex === -1) {
+      return res.status(404).json({
+        message: "Список не найден",
+      });
+    }
+
+    event.lists[listIndex] = { ...event.lists[listIndex], ...listData };
+
+    await event.save();
+
+    res.json(event.lists[listIndex]);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Не удалось обновить список",
+    });
+  }
+};
+
+export const removeList = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const listId = req.params.listId;
+
+    const event = await EventSchema.findOne({ _id: eventId });
+
+    if (!event) {
+      return res.status(404).json({
+        message: "Событие не найдено",
+      });
+    }
+
+    event.lists = event.lists.filter((list) => list._id.toString() !== listId);
+
+    await event.save();
+
+    res.json({ success: true });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: "Не удалось удалить список",
+    });
+  }
+};
