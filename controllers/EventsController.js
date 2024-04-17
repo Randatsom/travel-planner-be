@@ -27,7 +27,7 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const events = await EventSchema.find({ user: req.userId })
+    const events = await EventSchema.find()
       .populate("attendees", "-passwordHash")
       .populate({ path: "user", select: "-passwordHash" })
       .select("_id title description completed attendees")
